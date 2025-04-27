@@ -1,0 +1,41 @@
+syntax = "proto3";
+package main;
+option go_package = "/gen;mainpb";
+
+
+message RegisterRequest {
+  string firstname = 1;
+   string lastname = 2;
+   string email = 3;
+   string password = 4;
+}
+message UpdateRequest {
+   int64 id = 1;
+   string firstname = 2;
+   string lastname = 3;
+   string email = 4;
+   string password = 5;
+}
+message UpdateResponse {
+    int64 id = 1;
+   string firstname = 2;
+   string lastname = 3;
+   string email = 4;
+   string password = 5;
+}
+message RegisterResponse {
+   string token = 1;
+}
+message DeleteRequest {
+  int64 id = 1;
+}
+message DeleteResponse {
+  bool deleted = 1;
+}
+
+
+service User {
+  rpc RegisterUser (RegisterRequest) returns (RegisterResponse);
+  rpc UpdateUser (UpdateRequest) returns (UpdateResponse);
+  rpc DeleteUser (DeleteRequest) returns (DeleteResponse);
+}
