@@ -1,12 +1,17 @@
 package domain
 
-import "time"
+import (
+	
+	"time"
+)
 
 type UserModel struct {
 	Id          int64  `json:"id"`
 	FirstName   string `json:"firstname"`
 	LastName    string `json:"lastname"`
 	Email       string `json:"email"`
-	Password    string `json:"password"`
+	Password    string `json:"-"`
+	Version     int64  `json:"-"`
+	Activated   bool   `json:"activated"`
 	Creadted_at time.Time `json:"created_at"`
 }

@@ -243,7 +243,7 @@ func (x *UpdateResponse) GetPassword() string {
 
 type RegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Created       bool                   `protobuf:"varint,1,opt,name=created,proto3" json:"created,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -278,11 +278,11 @@ func (*RegisterResponse) Descriptor() ([]byte, []int) {
 	return file_main_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RegisterResponse) GetToken() string {
+func (x *RegisterResponse) GetCreated() bool {
 	if x != nil {
-		return x.Token
+		return x.Created
 	}
-	return ""
+	return false
 }
 
 type DeleteRequest struct {
@@ -395,9 +395,9 @@ const file_main_proto_rawDesc = "" +
 	"\tfirstname\x18\x02 \x01(\tR\tfirstname\x12\x1a\n" +
 	"\blastname\x18\x03 \x01(\tR\blastname\x12\x14\n" +
 	"\x05email\x18\x04 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x05 \x01(\tR\bpassword\"(\n" +
-	"\x10RegisterResponse\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"\x1f\n" +
+	"\bpassword\x18\x05 \x01(\tR\bpassword\",\n" +
+	"\x10RegisterResponse\x12\x18\n" +
+	"\acreated\x18\x01 \x01(\bR\acreated\"\x1f\n" +
 	"\rDeleteRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"*\n" +
 	"\x0eDeleteResponse\x12\x18\n" +
@@ -407,7 +407,7 @@ const file_main_proto_rawDesc = "" +
 	"\n" +
 	"UpdateUser\x12\x13.main.UpdateRequest\x1a\x14.main.UpdateResponse\x127\n" +
 	"\n" +
-	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponseB\rZ\v/gen;mainpbb\x06proto3"
+	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponseB!Z\x1f../internal/adapter/grpc;mainpbb\x06proto3"
 
 var (
 	file_main_proto_rawDescOnce sync.Once
