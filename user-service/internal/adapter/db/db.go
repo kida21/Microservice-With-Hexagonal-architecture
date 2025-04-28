@@ -5,11 +5,11 @@ import (
 	"database/sql"
 	"errors"
 	"log"
-	"os"
+	
 	"time"
 
 	"github.com/kida21/userservice/internal/application/core/domain"
-	_ "github.com/lib/pq"
+	
 )
 
 var (
@@ -23,21 +23,14 @@ func NewAdapter(db *sql.DB)(*Adapter){
   return &Adapter{db: db}
  }
 
- func OpenConnection()(*sql.DB,error){
-	connstr:=os.Getenv("CONN_STR")
-	 db,err:=sql.Open("postgres",connstr)
-	 if err!=nil{
-		return nil,err
-	 }
-	 return db,err
- }
+ 
  func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error){
-	query:=
-	       `INSERT INTO users(firstname,lastname,email,password) 
-	        VALUES($1,$2,$3,$4) RETURNING id,version,created_at`
-
-	args:=[]any{user.FirstName,user.LastName,user.Email,user.Password}
-	ctx,cancel:=context.WithTimeout(ctx ,time.Second * 5)
+	query:=`
+	        INSERT INTO users(firstname,lastname,email,password_hash) 
+	        VALUES($1,$2,$3,$4) RETURNING id,version,created_at
+			`
+    args:=[]any{user.FirstName,user.LastName,user.Email,user.Password}
+	ctx,cancel:=context.WithTimeout(ctx ,time.Second * 9)
 	defer cancel()
 	defer log.Print("user:",user.FirstName+user.LastName)
 	err:=a.db.QueryRowContext(ctx,query,args...).Scan(&user.Id,&user.Version,&user.Creadted_at)
