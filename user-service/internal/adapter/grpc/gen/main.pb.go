@@ -407,7 +407,7 @@ const file_main_proto_rawDesc = "" +
 	"\n" +
 	"UpdateUser\x12\x13.main.UpdateRequest\x1a\x14.main.UpdateResponse\x127\n" +
 	"\n" +
-	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponseB!Z\x1f../internal/adapter/grpc;mainpbb\x06proto3"
+	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponseB%Z#../internal/adapter/grpc/gen;mainpbb\x06proto3"
 
 var (
 	file_main_proto_rawDescOnce sync.Once
