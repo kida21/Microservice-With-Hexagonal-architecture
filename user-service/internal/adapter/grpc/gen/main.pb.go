@@ -373,6 +373,110 @@ func (x *DeleteResponse) GetDeleted() bool {
 	return false
 }
 
+type ValidationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidationRequest) Reset() {
+	*x = ValidationRequest{}
+	mi := &file_main_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidationRequest) ProtoMessage() {}
+
+func (x *ValidationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_main_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidationRequest.ProtoReflect.Descriptor instead.
+func (*ValidationRequest) Descriptor() ([]byte, []int) {
+	return file_main_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ValidationRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *ValidationRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type ValidationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Valid         bool                   `protobuf:"varint,2,opt,name=valid,proto3" json:"valid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidationResponse) Reset() {
+	*x = ValidationResponse{}
+	mi := &file_main_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidationResponse) ProtoMessage() {}
+
+func (x *ValidationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_main_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidationResponse.ProtoReflect.Descriptor instead.
+func (*ValidationResponse) Descriptor() ([]byte, []int) {
+	return file_main_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ValidationResponse) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ValidationResponse) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
 var File_main_proto protoreflect.FileDescriptor
 
 const file_main_proto_rawDesc = "" +
@@ -401,13 +505,20 @@ const file_main_proto_rawDesc = "" +
 	"\rDeleteRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"*\n" +
 	"\x0eDeleteResponse\x12\x18\n" +
-	"\adeleted\x18\x01 \x01(\bR\adeleted2\xb7\x01\n" +
+	"\adeleted\x18\x01 \x01(\bR\adeleted\"E\n" +
+	"\x11ValidationRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"C\n" +
+	"\x12ValidationResponse\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x14\n" +
+	"\x05valid\x18\x02 \x01(\bR\x05valid2\x80\x02\n" +
 	"\x04User\x12=\n" +
 	"\fRegisterUser\x12\x15.main.RegisterRequest\x1a\x16.main.RegisterResponse\x127\n" +
 	"\n" +
 	"UpdateUser\x12\x13.main.UpdateRequest\x1a\x14.main.UpdateResponse\x127\n" +
 	"\n" +
-	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponseB%Z#../internal/adapter/grpc/gen;mainpbb\x06proto3"
+	"DeleteUser\x12\x13.main.DeleteRequest\x1a\x14.main.DeleteResponse\x12G\n" +
+	"\x12ValidateCredential\x12\x17.main.ValidationRequest\x1a\x18.main.ValidationResponseB%Z#../internal/adapter/grpc/gen;mainpbb\x06proto3"
 
 var (
 	file_main_proto_rawDescOnce sync.Once
@@ -421,24 +532,28 @@ func file_main_proto_rawDescGZIP() []byte {
 	return file_main_proto_rawDescData
 }
 
-var file_main_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_main_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_main_proto_goTypes = []any{
-	(*RegisterRequest)(nil),  // 0: main.RegisterRequest
-	(*UpdateRequest)(nil),    // 1: main.UpdateRequest
-	(*UpdateResponse)(nil),   // 2: main.UpdateResponse
-	(*RegisterResponse)(nil), // 3: main.RegisterResponse
-	(*DeleteRequest)(nil),    // 4: main.DeleteRequest
-	(*DeleteResponse)(nil),   // 5: main.DeleteResponse
+	(*RegisterRequest)(nil),    // 0: main.RegisterRequest
+	(*UpdateRequest)(nil),      // 1: main.UpdateRequest
+	(*UpdateResponse)(nil),     // 2: main.UpdateResponse
+	(*RegisterResponse)(nil),   // 3: main.RegisterResponse
+	(*DeleteRequest)(nil),      // 4: main.DeleteRequest
+	(*DeleteResponse)(nil),     // 5: main.DeleteResponse
+	(*ValidationRequest)(nil),  // 6: main.ValidationRequest
+	(*ValidationResponse)(nil), // 7: main.ValidationResponse
 }
 var file_main_proto_depIdxs = []int32{
 	0, // 0: main.User.RegisterUser:input_type -> main.RegisterRequest
 	1, // 1: main.User.UpdateUser:input_type -> main.UpdateRequest
 	4, // 2: main.User.DeleteUser:input_type -> main.DeleteRequest
-	3, // 3: main.User.RegisterUser:output_type -> main.RegisterResponse
-	2, // 4: main.User.UpdateUser:output_type -> main.UpdateResponse
-	5, // 5: main.User.DeleteUser:output_type -> main.DeleteResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	6, // 3: main.User.ValidateCredential:input_type -> main.ValidationRequest
+	3, // 4: main.User.RegisterUser:output_type -> main.RegisterResponse
+	2, // 5: main.User.UpdateUser:output_type -> main.UpdateResponse
+	5, // 6: main.User.DeleteUser:output_type -> main.DeleteResponse
+	7, // 7: main.User.ValidateCredential:output_type -> main.ValidationResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -455,7 +570,7 @@ func file_main_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_main_proto_rawDesc), len(file_main_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

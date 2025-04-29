@@ -16,9 +16,9 @@ func main() {
 	if err!=nil{
 		log.Fatal(err)
 	}
-	repo:=db.NewAdapter(conn)
-	service:=api.NewApplication(repo)
-	handler:=grpc.NewHandler(service)
+	adapter:=db.NewAdapter(conn)
+	api:=api.NewApplication(adapter)
+	handler:=grpc.NewHandler(api)
 
 	listner,err:=net.Listen("tcp",":50021")
 	if err!=nil{

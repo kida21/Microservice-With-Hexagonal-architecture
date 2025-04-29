@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_RegisterUser_FullMethodName = "/main.User/RegisterUser"
-	User_UpdateUser_FullMethodName   = "/main.User/UpdateUser"
-	User_DeleteUser_FullMethodName   = "/main.User/DeleteUser"
+	User_RegisterUser_FullMethodName       = "/main.User/RegisterUser"
+	User_UpdateUser_FullMethodName         = "/main.User/UpdateUser"
+	User_DeleteUser_FullMethodName         = "/main.User/DeleteUser"
+	User_ValidateCredential_FullMethodName = "/main.User/ValidateCredential"
 )
 
 // UserClient is the client API for User service.
@@ -31,6 +32,7 @@ type UserClient interface {
 	RegisterUser(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	ValidateCredential(ctx context.Context, in *ValidationRequest, opts ...grpc.CallOption) (*ValidationResponse, error)
 }
 
 type userClient struct {
@@ -71,6 +73,16 @@ func (c *userClient) DeleteUser(ctx context.Context, in *DeleteRequest, opts ...
 	return out, nil
 }
 
+func (c *userClient) ValidateCredential(ctx context.Context, in *ValidationRequest, opts ...grpc.CallOption) (*ValidationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidationResponse)
+	err := c.cc.Invoke(ctx, User_ValidateCredential_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type UserServer interface {
 	RegisterUser(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	UpdateUser(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	DeleteUser(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	ValidateCredential(context.Context, *ValidationRequest) (*ValidationResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateRequest) (*Upd
 }
 func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServer) ValidateCredential(context.Context, *ValidationRequest) (*ValidationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateCredential not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -172,6 +188,24 @@ func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ValidateCredential_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ValidateCredential(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ValidateCredential_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ValidateCredential(ctx, req.(*ValidationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _User_DeleteUser_Handler,
+		},
+		{
+			MethodName: "ValidateCredential",
+			Handler:    _User_ValidateCredential_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

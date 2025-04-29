@@ -32,10 +32,21 @@ message DeleteRequest {
 message DeleteResponse {
   bool deleted = 1;
 }
+message ValidationRequest {
+   string email = 1;
+   string password = 2;
+}
+message ValidationResponse {
+    int64 user_id = 1;
+    bool  valid = 2;
+    
+    
 
+}
 
 service User {
   rpc RegisterUser (RegisterRequest) returns (RegisterResponse);
   rpc UpdateUser (UpdateRequest) returns (UpdateResponse);
   rpc DeleteUser (DeleteRequest) returns (DeleteResponse);
+  rpc ValidateCredential (ValidationRequest) returns (ValidationResponse);
 }

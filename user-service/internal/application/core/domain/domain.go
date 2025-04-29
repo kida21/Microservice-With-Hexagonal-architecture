@@ -7,8 +7,25 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 type Password struct{
-	plaintext *string
+	Plaintext *string
 	Hash []byte
+}
+type UserCredential struct{
+	Email string
+	Password string
+}
+
+func (u *UserCredential) Compare(input string,password []byte)(bool,error){
+	 err:=bcrypt.CompareHashAndPassword(password,[]byte(input))
+	 if err!=nil{
+		switch{
+		case errors.Is(err,bcrypt.ErrMismatchedHashAndPassword):
+			return false,err
+		default:
+			return false,err
+		}
+	 }
+	 return true,nil
 }
 type UserModel struct {
 	Id          int64  `json:"id"`
@@ -25,20 +42,8 @@ func (p *Password) Set(plaintext string)error{
 	if err!=nil{
 		return err
 	}
-	p.plaintext=&plaintext
+	p.Plaintext=&plaintext
 	p.Hash=hash
 
 	return nil
-}
-func (p *Password) Matches(plaintext string)(bool,error){
-	err:=bcrypt.CompareHashAndPassword(p.Hash,[]byte(plaintext))
-	if err!=nil{
-		switch{
-		   case errors.Is(err,bcrypt.ErrMismatchedHashAndPassword):
-			return false,err
-		   default:
-			return false,err
-		}
-	}
-	return true,nil
 }

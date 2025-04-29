@@ -14,6 +14,7 @@ import (
 
 var (
 	ErrDuplicate = errors.New("duplicate Email")
+	ErrNotFound = errors.New("sql no rows")
 )
 type Adapter struct {
 	db *sql.DB
@@ -44,3 +45,25 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	}
 	return true,nil
  }
+
+ func(a * Adapter)ValidateCredential(ctx context.Context,input *domain.UserCredential)(int64,bool,error){
+     var user domain.UserModel
+	query:=`SELECT id,password_hash,email FROM users WHERE email = $1`
+	ctx,cancel:=context.WithTimeout(ctx,time.Second*9)
+	defer cancel()
+	err:=a.db.QueryRowContext(ctx,query,input.Email).Scan(&user.Id,&user.Password.Hash,&user.Email)
+	if err!=nil{
+		switch{
+		case errors.Is(err,sql.ErrNoRows):
+			return 0,false,ErrNotFound
+		default:
+			return 0,false,err
+		}
+	}
+	 valid,err:=input.Compare(input.Password,user.Password.Hash)
+	 if err!=nil{
+		return 0,false,err
+	 }
+	 log.Println(user.Id,":",valid)
+	 return user.Id,valid,nil
+}
