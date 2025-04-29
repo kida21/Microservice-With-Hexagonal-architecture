@@ -23,15 +23,15 @@ func NewAdapter(db *sql.DB)(*Adapter){
   return &Adapter{db: db}
  }
 
- 
- func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error){
+func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error){
 	query:=`
 	        INSERT INTO users(firstname,lastname,email,password_hash) 
 	        VALUES($1,$2,$3,$4) RETURNING id,version,created_at
 			`
-    args:=[]any{user.FirstName,user.LastName,user.Email,user.Password}
+	args:=[]any{user.FirstName,user.LastName,user.Email,user.Password.Hash}
 	ctx,cancel:=context.WithTimeout(ctx ,time.Second * 9)
 	defer cancel()
+	//for debugging purpose
 	defer log.Print("user:",user.FirstName+user.LastName)
 	err:=a.db.QueryRowContext(ctx,query,args...).Scan(&user.Id,&user.Version,&user.Creadted_at)
 	if err!=nil{

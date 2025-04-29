@@ -16,8 +16,11 @@ func NewHandler(service *api.Application)(*Handler){
 }
  
 func (h *Handler) RegisterUser(ctx context.Context,req *pb.RegisterRequest)(*pb.RegisterResponse,error){
-	user:=domain.UserModel{FirstName:req.Firstname,LastName: req.Lastname,Email: req.Email,Password:req.Password}
-	created,err:=h.service.RegisterUser(ctx,&user)
+	user:=domain.UserModel{FirstName:req.Firstname,LastName: req.Lastname,Email: req.Email}
+	if err:=user.Password.Set(req.Password);err!=nil{
+		return &pb.RegisterResponse{},err
+	}
+    created,err:=h.service.RegisterUser(ctx,&user)
 	if err!=nil{
 		return &pb.RegisterResponse{},err
 	}
