@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"context"
-	pb "github.com/kida21/userservice/internal/adapter/grpc/gen"
+	pb "github.com/kida21/userservice/gen"
 	"github.com/kida21/userservice/internal/application/core/api"
 	"github.com/kida21/userservice/internal/application/core/domain"
 )
@@ -33,7 +33,7 @@ func (h *Handler) ValidateCredential(ctx context.Context,req *pb.ValidationReque
 	}
 	 userId,valid,err:=h.service.ValidateUser(ctx,input)
 	 if err!=nil{
-		return &pb.ValidationResponse{},err
+		return &pb.ValidationResponse{UserId: 0,Valid: false},nil
 	 }
 	 return &pb.ValidationResponse{UserId:userId,Valid: valid},nil
 }

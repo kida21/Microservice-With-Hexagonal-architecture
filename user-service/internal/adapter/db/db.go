@@ -55,7 +55,7 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	if err!=nil{
 		switch{
 		case errors.Is(err,sql.ErrNoRows):
-			return 0,false,ErrNotFound
+			return 0,false,err
 		default:
 			return 0,false,err
 		}

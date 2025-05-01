@@ -10,14 +10,21 @@ import (
 	"github.com/kida21/authservice/internal/adapter"
 	"github.com/kida21/authservice/internal/application/core/api"
 	"google.golang.org/grpc"
-
-	
+	"google.golang.org/grpc/credentials/insecure"
+	//userpb"github.com/kida21/userservice/gen"
 )
 
 func main() {
-	adapter:=adapter.NewAdapter()
+
+    connString:=os.Getenv("USERSVR_ADDR")
+	
+	conn,err:=grpc.NewClient(connString,grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err!=nil{
+		log.Fatalf("unable to make a client connection :%v",err)
+	}
+    adapter:=adapter.NewAdapter(conn)
 	service:=api.NewService(adapter)
-	handler:=handler.NewHandeler(service)
+	handler:=handler.NewHandler(service)
 
     listener,err:=net.Listen("tcp",":50051")
 	if err!=nil{
@@ -29,11 +36,8 @@ func main() {
  	if err=grpcServer.Serve(listener);err!=nil{
 		log.Fatal(err)
 	}
-	connString:=os.Getenv("USERSVR_ADDR")
-	_,err=grpc.NewClient(connString)
-	if err!=nil{
-		log.Fatalf("unable to make a client connection :%v",err)
-	}
 	
+	
+
 
 }

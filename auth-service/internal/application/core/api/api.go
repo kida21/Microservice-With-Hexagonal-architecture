@@ -15,4 +15,10 @@ func NewService(auth ports.AuthPort)(Service){
 	return Service{auth: auth}
 }
 
-func (s *Service) AuthenticateUser(ctx context.Context,input domain.Credential)()
+func (s *Service) AuthenticateUser(ctx context.Context,input domain.Credential)(string,error){
+	token,err:= s.auth.Login(ctx,&input)
+	if err!=nil{
+		return "",err
+	}
+  return token,nil
+}
