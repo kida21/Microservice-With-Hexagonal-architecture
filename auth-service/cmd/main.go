@@ -17,7 +17,7 @@ import (
 func main() {
 
     connString:=os.Getenv("USERSVR_ADDR")
-	
+	                                          //insecure for development 
 	conn,err:=grpc.NewClient(connString,grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err!=nil{
 		log.Fatalf("unable to make a client connection :%v",err)
