@@ -6,10 +6,10 @@ import (
 	"errors"
 	"log"
 	
+
 	"time"
 
 	"github.com/kida21/userservice/internal/application/core/domain"
-	
 )
 
 var (
@@ -45,6 +45,22 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	}
 	return true,nil
  }
+
+  func (a *Adapter)Update(ctx context.Context,user *domain.UserModel)(int64,int64,error){
+	query:=`UPDATE users 
+	        SET firstname = $1,lastname = $2,email= $3,
+			password_hash = $4,version = version + 1 WHERE id = $5 AND version = $6 RETURNING id,version`
+	 
+	  args:=[]any{user.FirstName,user.LastName,user.Email,user.Password.Hash,user.Id,user.Version}
+	  ctx,cancel:=context.WithTimeout(ctx,time.Second * 9)
+	  defer cancel()
+	  defer log.Println("userid:",user.Id,"version:",user.Version)
+	 err:=a.db.QueryRowContext(ctx,query,args...).Scan(&user.Id,&user.Version)
+	 if err!=nil{
+		return 0,0,err
+	 }
+	 return user.Id,user.Version,nil
+  }
 
  func(a * Adapter)ValidateCredential(ctx context.Context,input *domain.UserCredential)(int64,bool,error){
      var user domain.UserModel

@@ -20,6 +20,13 @@ func (a *Application) RegisterUser(ctx context.Context,user *domain.UserModel)( 
 	}
 	return registered,nil
 }
+func (a *Application) UpdateUser(ctx context.Context,user *domain.UserModel)(int64,int64,error){
+	id,version,err:=a.db.Update(ctx,user)
+	if err!=nil{
+		return 0,0,err
+	}
+	return id,version,nil
+}
 func (a *Application) ValidateUser(ctx context.Context,input *domain.UserCredential)(int64,bool,error){
 	userId,valid,err:=a.db.ValidateCredential(ctx,input)
 	if err!=nil{

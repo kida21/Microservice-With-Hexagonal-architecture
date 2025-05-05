@@ -26,6 +26,17 @@ func (h *Handler) RegisterUser(ctx context.Context,req *pb.RegisterRequest)(*pb.
 	}
 	return &pb.RegisterResponse{Created:created},nil
 }
+func (h *Handler)UpdateUser(ctx context.Context,req *pb.UpdateRequest)(*pb.UpdateResponse,error){
+	user:=domain.UserModel{FirstName: req.Firstname,LastName: req.Lastname,Email: req.Email,Id: req.Id,Version: req.Version}
+	if err:=user.Password.Set(req.Password);err!=nil{
+        return &pb.UpdateResponse{},err
+	}
+	userId,version,err:=h.service.UpdateUser(ctx,&user)
+	if err!=nil{
+		return &pb.UpdateResponse{Id: 0,Version: 0},err
+	}
+	return &pb.UpdateResponse{Id: userId,Version: version},nil
+}
 func (h *Handler) ValidateCredential(ctx context.Context,req *pb.ValidationRequest)(*pb.ValidationResponse,error){
 	input:=&domain.UserCredential{
 		Email: req.Email,

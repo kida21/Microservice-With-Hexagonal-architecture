@@ -96,6 +96,7 @@ type UpdateRequest struct {
 	Lastname      string                 `protobuf:"bytes,3,opt,name=lastname,proto3" json:"lastname,omitempty"`
 	Email         string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 	Password      string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
+	Version       int64                  `protobuf:"varint,6,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -165,13 +166,17 @@ func (x *UpdateRequest) GetPassword() string {
 	return ""
 }
 
+func (x *UpdateRequest) GetVersion() int64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
 type UpdateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Firstname     string                 `protobuf:"bytes,2,opt,name=firstname,proto3" json:"firstname,omitempty"`
-	Lastname      string                 `protobuf:"bytes,3,opt,name=lastname,proto3" json:"lastname,omitempty"`
-	Email         string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
+	Version       int64                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -213,32 +218,11 @@ func (x *UpdateResponse) GetId() int64 {
 	return 0
 }
 
-func (x *UpdateResponse) GetFirstname() string {
+func (x *UpdateResponse) GetVersion() int64 {
 	if x != nil {
-		return x.Firstname
+		return x.Version
 	}
-	return ""
-}
-
-func (x *UpdateResponse) GetLastname() string {
-	if x != nil {
-		return x.Lastname
-	}
-	return ""
-}
-
-func (x *UpdateResponse) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *UpdateResponse) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
+	return 0
 }
 
 type RegisterResponse struct {
@@ -487,19 +471,17 @@ const file_main_proto_rawDesc = "" +
 	"\tfirstname\x18\x01 \x01(\tR\tfirstname\x12\x1a\n" +
 	"\blastname\x18\x02 \x01(\tR\blastname\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x04 \x01(\tR\bpassword\"\x8b\x01\n" +
+	"\bpassword\x18\x04 \x01(\tR\bpassword\"\xa5\x01\n" +
 	"\rUpdateRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1c\n" +
 	"\tfirstname\x18\x02 \x01(\tR\tfirstname\x12\x1a\n" +
 	"\blastname\x18\x03 \x01(\tR\blastname\x12\x14\n" +
 	"\x05email\x18\x04 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x05 \x01(\tR\bpassword\"\x8c\x01\n" +
+	"\bpassword\x18\x05 \x01(\tR\bpassword\x12\x18\n" +
+	"\aversion\x18\x06 \x01(\x03R\aversion\":\n" +
 	"\x0eUpdateResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1c\n" +
-	"\tfirstname\x18\x02 \x01(\tR\tfirstname\x12\x1a\n" +
-	"\blastname\x18\x03 \x01(\tR\blastname\x12\x14\n" +
-	"\x05email\x18\x04 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x05 \x01(\tR\bpassword\",\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\",\n" +
 	"\x10RegisterResponse\x12\x18\n" +
 	"\acreated\x18\x01 \x01(\bR\acreated\"\x1f\n" +
 	"\rDeleteRequest\x12\x0e\n" +

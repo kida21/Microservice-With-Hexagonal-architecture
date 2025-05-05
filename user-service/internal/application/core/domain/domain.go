@@ -14,7 +14,6 @@ type UserCredential struct{
 	Email string
 	Password string
 }
-
 func (u *UserCredential) Compare(input string,password []byte)(bool,error){
 	 err:=bcrypt.CompareHashAndPassword(password,[]byte(input))
 	 if err!=nil{

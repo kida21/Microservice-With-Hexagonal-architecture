@@ -15,13 +15,11 @@ message UpdateRequest {
    string lastname = 3;
    string email = 4;
    string password = 5;
+   int64 version = 6;
 }
 message UpdateResponse {
     int64 id = 1;
-   string firstname = 2;
-   string lastname = 3;
-   string email = 4;
-   string password = 5;
+    int64 version = 2;
 }
 message RegisterResponse {
    bool created = 1;
