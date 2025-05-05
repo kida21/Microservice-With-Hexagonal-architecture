@@ -37,6 +37,13 @@ func (h *Handler)UpdateUser(ctx context.Context,req *pb.UpdateRequest)(*pb.Updat
 	}
 	return &pb.UpdateResponse{Id: userId,Version: version},nil
 }
+func (h *Handler)DeleteUser(ctx context.Context,req *pb.DeleteRequest)(*pb.DeleteResponse,error){
+	deleted,err:=h.service.DeleteUser(ctx,req.Id)
+	if err!=nil{
+		return &pb.DeleteResponse{},err
+	}
+	return &pb.DeleteResponse{Deleted: deleted},nil
+}
 func (h *Handler) ValidateCredential(ctx context.Context,req *pb.ValidationRequest)(*pb.ValidationResponse,error){
 	input:=&domain.UserCredential{
 		Email: req.Email,

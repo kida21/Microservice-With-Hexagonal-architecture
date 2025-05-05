@@ -4,9 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"log"
-	
-
 	"time"
 
 	"github.com/kida21/userservice/internal/application/core/domain"
@@ -33,7 +30,7 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	ctx,cancel:=context.WithTimeout(ctx ,time.Second * 9)
 	defer cancel()
 	//for debugging purpose
-	defer log.Print("user:",user.FirstName+user.LastName)
+	// defer log.Print("user:",user.FirstName+user.LastName)
 	err:=a.db.QueryRowContext(ctx,query,args...).Scan(&user.Id,&user.Version,&user.Creadted_at)
 	if err!=nil{
          switch{
@@ -54,12 +51,27 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	  args:=[]any{user.FirstName,user.LastName,user.Email,user.Password.Hash,user.Id,user.Version}
 	  ctx,cancel:=context.WithTimeout(ctx,time.Second * 9)
 	  defer cancel()
-	  defer log.Println("userid:",user.Id,"version:",user.Version)
+	  
 	 err:=a.db.QueryRowContext(ctx,query,args...).Scan(&user.Id,&user.Version)
 	 if err!=nil{
 		return 0,0,err
 	 }
 	 return user.Id,user.Version,nil
+  }
+
+  func(a *Adapter) Delete(ctx context.Context, id int64)(bool,error){
+	query:=`DELETE FROM users WHERE id = $1`
+	ctx,cancel:=context.WithTimeout(ctx,time.Second * 9)
+	defer cancel()
+	result,err:=a.db.ExecContext(ctx,query,id)
+	if err!=nil{
+		return false,err
+	}
+	_,err=result.RowsAffected()
+	if err!=nil{
+		return false,err
+	}
+	return true,nil
   }
 
  func(a * Adapter)ValidateCredential(ctx context.Context,input *domain.UserCredential)(int64,bool,error){
@@ -80,6 +92,6 @@ func (a *Adapter)Insert(ctx context.Context, user *domain.UserModel)(bool,error)
 	 if err!=nil{
 		return 0,false,err
 	 }
-	 log.Println(user.Id,":",valid)
+	
 	 return user.Id,valid,nil
 }

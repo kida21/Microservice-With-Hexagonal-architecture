@@ -27,6 +27,13 @@ func (a *Application) UpdateUser(ctx context.Context,user *domain.UserModel)(int
 	}
 	return id,version,nil
 }
+func(a *Application) DeleteUser(ctx context.Context,id int64)(bool,error){
+	Deleted,err:=a.db.Delete(ctx,id)
+	if err!=nil{
+		return false,err
+	}
+	return Deleted,nil
+}
 func (a *Application) ValidateUser(ctx context.Context,input *domain.UserCredential)(int64,bool,error){
 	userId,valid,err:=a.db.ValidateCredential(ctx,input)
 	if err!=nil{
