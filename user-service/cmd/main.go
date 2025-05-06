@@ -8,7 +8,8 @@ import (
 	"github.com/kida21/userservice/internal/adapter/grpc"
 	"github.com/kida21/userservice/internal/application/core/api"
 	Grpc"google.golang.org/grpc"
-	pb "github.com/kida21/userservice/gen"
+	//pb "github.com/kida21/userservice/gen"
+	pb"github.com/kida21/Microservice-With-Hexagonal-architecture/z-proto/user"
 )
 
 func main() {

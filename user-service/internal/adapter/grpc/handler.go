@@ -2,9 +2,10 @@ package grpc
 
 import (
 	"context"
-	pb "github.com/kida21/userservice/gen"
+	//pb "github.com/kida21/userservice/gen"(replaced with github.com/kida21/Microservice-With-Hexagonal.... )
 	"github.com/kida21/userservice/internal/application/core/api"
 	"github.com/kida21/userservice/internal/application/core/domain"
+	pb"github.com/kida21/Microservice-With-Hexagonal-architecture/z-proto/user"
 )
 type Handler struct {
   service *api.Application

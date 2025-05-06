@@ -8,8 +8,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/kida21/authservice/internal/domain"
-	userpb "github.com/kida21/userservice/gen"
+	//userpb "github.com/kida21/userservice/gen"(replaced with published module of github.com/kida21/Microservice-With....)
 	"google.golang.org/grpc"
+	userpb"github.com/kida21/Microservice-With-Hexagonal-architecture/z-proto/user"
 )
 type Adapter struct{
 	conn *grpc.ClientConn

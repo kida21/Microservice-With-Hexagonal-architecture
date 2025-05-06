@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"context"
-	//pb "github.com/kida21/authservice/grpc/gen"
+	//pb "github.com/kida21/authservice/grpc/gen"(replace by authpb)
 	"github.com/kida21/authservice/internal/application/core/api"
 	"github.com/kida21/authservice/internal/domain"
 	authpb"github.com/kida21/Microservice-With-Hexagonal-architecture/z-proto/auth"

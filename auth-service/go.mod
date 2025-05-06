@@ -23,4 +23,3 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250303144028-a0af3efb3deb // indirect
 )
 
-replace github.com/kida21/userservice => C:\Users\kida\Documents\GitHub\Microservice-With-Hexagonal-architecture\user-service
