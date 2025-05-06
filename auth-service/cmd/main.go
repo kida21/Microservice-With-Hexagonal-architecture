@@ -6,12 +6,12 @@ import (
 	"os"
 
 	handler "github.com/kida21/authservice/grpc"
-	pb "github.com/kida21/authservice/grpc/gen"
+	//pb "github.com/kida21/authservice/grpc/gen"(replaced with published module of github.com/kida21)
 	"github.com/kida21/authservice/internal/adapter"
 	"github.com/kida21/authservice/internal/application/core/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	//"github.com/kida21/MicroserviceWithHexagonal/z-proto/auth"
+	authpb"github.com/kida21/Microservice-With-Hexagonal-architecture/z-proto/auth"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	}
 	log.Println("Server running on :50051")
     grpcServer:=grpc.NewServer()
-	pb.RegisterAuthenticationServer(grpcServer,handler)
+	authpb.RegisterAuthenticationServer(grpcServer,handler)
  	if err=grpcServer.Serve(listener);err!=nil{
 		log.Fatal(err)
 	}
