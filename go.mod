@@ -1,4 +1,4 @@
-module github.com/kida21/MicroserviceWithHexagonal
+module github.com/kida21/Microservice-With-Hexagonal-architecture
 
 go 1.23.4
 

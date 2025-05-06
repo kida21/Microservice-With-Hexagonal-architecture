@@ -11,7 +11,7 @@ import (
 	"github.com/kida21/authservice/internal/application/core/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	//userpb"github.com/kida21/userservice/gen"
+	//"github.com/kida21/MicroserviceWithHexagonal/z-proto/auth"
 )
 
 func main() {
