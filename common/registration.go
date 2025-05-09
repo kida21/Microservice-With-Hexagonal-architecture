@@ -39,9 +39,17 @@ func (s*Serviceregistrar) Register(serviceName,address string,port int)(string,e
 		DeregisterCriticalServiceAfter: "2m",
 	},
    } 
+   log.Printf("Registering a service on the address:%sport:%d",address,port)
    err:=s.Client.Agent().ServiceRegister(registration)
    if err!=nil{
 	log.Fatalf("failed to register a service:%v",err)
    }
    return serviceId,nil
+}
+
+func (s *Serviceregistrar) DeregisterService(serviceId string)(error){
+   if err:=s.Client.Agent().ServiceDeregister(serviceId);err!=nil{
+	log.Fatalf("failed to deregister a service:%v",err)
+   }
+   return nil
 }
